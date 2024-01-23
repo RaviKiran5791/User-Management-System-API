@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.jsp.ums.entity.User;
@@ -22,6 +23,9 @@ import com.jsp.ums.util.ResponseStructure;
 public class UserServiceImpl implements UserService{
 	
 	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
 	private UserRepositary userrepo;
 	
 	@Autowired
@@ -30,9 +34,9 @@ public class UserServiceImpl implements UserService{
 	public User mapToUser(UserRequest userRequest)
 	{
 		return User.builder()
-				.name(userRequest.getName())
+				.username(userRequest.getName())
 				.email(userRequest.getEmail())
-				.password(userRequest.getPassword())
+				.password(passwordEncoder.encode(userRequest.getPassword()))
 				.build();
 	}
 	
@@ -40,7 +44,7 @@ public class UserServiceImpl implements UserService{
 	{
 		return UserResponse.builder()
 				.id(user.getId())
-				.name(user.getName())
+				.name(user.getUsername())
 				.email(user.getEmail())
 				.build();
 	}

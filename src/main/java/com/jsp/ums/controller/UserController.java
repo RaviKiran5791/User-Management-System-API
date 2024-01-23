@@ -38,11 +38,12 @@ public class UserController {
 					@ApiResponse(responseCode = "400",description = "failed to add User",
 					content = {@Content(schema = @Schema(implementation = ApplicationExceptionHandler.class,
 					description = "Method : structure"))})})
-	@PostMapping("/users")
+	@PostMapping("/users/register")
 	public ResponseEntity<ResponseStructure<UserResponse>> saveUser(@RequestBody @Valid UserRequest userRequest)
 	{
 	   return userService.saveUser(userRequest);
 	}
+	
 	@Operation(description = "**Find User by Id -** "
 			+ "the API endpoint is used to fetch the user data based on the Id", responses = {
 					@ApiResponse(responseCode = "302", description = "user found", content = {
@@ -54,6 +55,7 @@ public class UserController {
 	{
 		return userService.findUserById(id);
 	}
+	
 	@Operation(description = "**Find all Users -** "
 			+ "the API endpoint is used to list of users", responses = {
 					@ApiResponse(responseCode = "302", description = "user found", content = {
@@ -76,6 +78,7 @@ public class UserController {
 	{
 		return userService.updateUserById(user,id);
 	}
+	
 	
 	@Operation(description = "**Delete User by Id -** "
 			+ "the API endpoint is used to delete the user data based on the Id", responses = {
